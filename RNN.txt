@@ -1,0 +1,66 @@
+Recurent Neural Network
+	* solves issue of maintaing context for sequential data
+	
+	* at each step, processing unit take an input and state of network; produce an output and a new state; feed it to the network
+
+	* for each neural step-> input comes in, state info from previous step comes in, produces an output and a state, that state is fed into the next step processing unit
+
+	* can be expensive to maintain lots of state for long time
+	* RNN very sensitive about change in parameters->prone to problems with gradient descent optimizer: grow expoenentially (exploding gradient), or drop down to zero(vanishing gradient)
+
+
+Long-Short Term Memory (LSTM)
+	* bundled with processing unit of recurrent network
+	# responsible for keeping, reading, outputing information for model
+	* operation implmeneted by logistic gates
+
+	Architecture
+		* linear unit surrounded by 3 logistic gates
+		* "Input/Write" gate, "Output/Read" Gate, "Keep or Forget" Gate
+		* the 3 gates -> centerpiece of LSTM
+	* gates are analog and multiplicative->can modify data based on input
+
+#1. Keep gate decide, whether to keep or forget the data currently stored in memory (receives input and the state of the recurrent network)
+
+there is only single state of the network, which is updated at every step
+
+Keep gate pass input and state through sigmoid activation.->value=1 means LSTM should keep all the data stored perfectly
+value=0-> LSTM should forget all the data
+
+S(t-1):incoming(previous)state
+x(t):incoming input
+W(k), B(k): weight and bias for keep gate
+Old(t-1): data previously in memory
+
+K(t):keep current
+K(t) = sigma(W(k) * [S(t-1),x(t)] + B(k)) (old state, current input ko weight se multiply and add bias)
+Old(t) = K(t) * Old(t-1) (this level ki old state = previous state * keep value)
+
+this is the factor for data to be stored in cell
+
+new state and data are input to the input gate.
+C(t) result of processing of inputs by Recurrent network (output)
+how much new data to store-> I(t) = sigma(W(i) * [S(t-1),x(t)] + B(i)); W(i),B(i):values for input gate
+
+
+New(t) = I(t) * C(t) -> new data to be input, this data is "added" to existing value stored in memory
+
+Cell(t) = Cell(t) + New(t) -> value stored in cell
+
+# Keep and input gate work in conjunction
+* if keep=0 and input=1
+Old(t) = ) * Old(t-1)
+New(t) = 1 * C(t)
+Cell(t) = C(t)
+previous data totally removed, new totaly completely written
+
+#output gate
+what data to be output->take state and input, put them to sigmoid function
+***Content of memory cell are pushed to tanH function to bind them between value -1 to 1
+
+O(t) = sigma(W(o) * [S(t-1),x(t)] + B(o)); W(o),B(o):values for output gate
+
+Output(t) = O(t) * tanh(Cell(t)) ; Cell(t) data stored
+
+#Gates are logistic so that they can be easily backpropagated->possible for model to learn how to use this structure; 2. solves problem of gradients, since values at the gates (of weights and bias) can be adjusted
+

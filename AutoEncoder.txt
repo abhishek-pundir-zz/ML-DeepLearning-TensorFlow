@@ -1,0 +1,59 @@
+Autoencoder
+
+also called: autoassociater / Diabolo networks
+NN to recreate given input by encoding and extracting most valuable features of unlabeled inputs
+
+used for:
+feature extraction
+dimensionality reduction
+compression
+
+based on RBM
+employed in deep learning netwroks
+buildng blocks of Deep belief networks
+
+too many dimensions of input data(256x256 -> 65 thousand dimensions !)
+difficulty of ml probelm increase, with increased dimensions
+
+best time to fit a model: m^(-p / (2p + d)) 	(exponentis; increase)
+		p: parameters depending on model
+		d: dimensionality of data
+		m: number of data points
+
+
+autoencoder-> 2 parts: encoder->compress representation
+		       decoder
+
+encoder: compress representation (dimension) of input (eg: 2000 dimension data to 30 dimension)
+
+decoder: recreate the input, as closely as possible.
+	important role during training: force autoencoder to select "most important features" in compressed representation
+
+
+****TRAINING OF NETWORK****
+
+autoencoder use "Loss function" to properly train the network
+minimise the loss using: gradient descent
+
+
+**For binary values**:
+Loss function: l(f(x)) = - sigma ((x(k) log(x^(k))) + ((1 - x(k))log(1 - x^(k))))
+
+x(k): input
+x^(k):calculated output
+
+if x(k)=1 -> calculate just first part (second part becomes zero)
+   x(k)=0 -> calculate just second part (first part becomes zero)
+
+
+**For real Values**:
+l(f(x)) = -1/2 * sigma((x(k) - x^(k))^2)
+
+for this loss function: necessary to use linear activation function for output layer
+
+
+***LOSS GRADIENT***
+delta l(f(x(t))) = x^(t) - x(t)
+
+prectivation of the output layer (delta) of the loss(l(f(x(t))))
+then network backpropagates the network using "backpropagation"

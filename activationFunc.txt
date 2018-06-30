@@ -1,0 +1,29 @@
+activation function: take in some input produce some output
+
+1. step function: act on some threshold
+		* used for two class classification
+		* output either 0 or 1
+
+2. sigmoid activation function: resemble "s" shape
+		* 'squash' the inputs into bounded intervals(as output)(i.e group up the input)
+		* handy when combining with other activation function(like Step function)
+		* types: Logistic, HyperBolic, Tangent function
+
+3. logistic function: used in logistic regression	1/(1+e^-x)
+		* output: sigmoid in range (0,1)
+
+4. Arctangent, hyperbolic tangent: based on tangent function
+	* Arctangent: f(x) = tan^-1x; produce sigmoid over (-pi/2,pi/2)
+	* no implementation in tensorflow
+
+5. Tanh: Hyperbolic tangent (or TanH)
+		* defined as: f(x) = [2/(1+e^-2x)] - 1
+		* produce sigmoid over (-1,1)
+		* most used among sigmoid
+
+6. Linear Unit: combine step and sigmoid
+		* based on Rectified Linear Unit (ReLU)
+		* [-infinity, 0) - o/p: 0
+		* [0, infinity) - o/p: x
+
+
